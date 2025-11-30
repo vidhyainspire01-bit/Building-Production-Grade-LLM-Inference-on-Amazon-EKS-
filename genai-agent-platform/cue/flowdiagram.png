@@ -1,0 +1,22 @@
+Frontend UI (React/Streamlit)
+        │
+        ▼
+CUE Backend API (FastAPI)
+        │
+        ▼
+LLM Inference Gateway (EKS CPU nodes)
+        │
+        ├── OpenAI models
+        └── vLLM (GPU autoscaled)
+        │
+        ▼
+RAG Layer (ChromaDB: cue_slack, cue_crm, cue_calls, cue_support)
+        │
+        ▼
+CUE Multi-Agent Graph (LangGraph)
+        │
+        ▼
+Executive Summary + Citations + Risk Score
+        │
+        ▼
+Frontend UI / CRM / Slack
