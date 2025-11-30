@@ -1,0 +1,67 @@
+                          ┌────────────────────────────────────────┐
+                          │           PHASE 1: INFRA (EKS)         │
+                          │----------------------------------------│
+                          │ CPU Node Pool (Gateway, RAG, Agents)   │
+                          │ GPU Node Pool (vLLM Model Serving)     │
+                          └───────────────────┬────────────────────┘
+                                              │
+                                              ▼
+                       ┌──────────────────────────────────────────┐
+                       │   PHASE 2: LLM INFERENCE GATEWAY (FastAPI│
+                       │------------------------------------------│
+                       │ Async IO | Batching | Caching | Retry    │
+                       │ Streaming | Routing | Guardrails | Auth  │
+                       └───────────────────┬──────────────────────┘
+                                           │
+                                           ▼
+         ┌──────────────────────────────┬──────────────────────────────┐
+         │                              │                              │
+         ▼                              ▼                              ▼
+┌─────────────────────┐     ┌─────────────────────┐        ┌──────────────────────┐
+│ OpenAI GPT Models   │     │ vLLM on GPU Nodes   │        │ Embeddings API       │
+│ (GPT-4o, GPT-4o Mini│     │ (Llama / Mistral)   │        │ (OpenAI Embeddings)  │
+└─────────────────────┘     └─────────────────────┘        └──────────────────────┘
+         │                              │                              │
+         └───────────────┬──────────────┴───────────────┬─────────────┘
+                         ▼                              ▼
+             ┌──────────────────────────────┐  ┌──────────────────────────────┐
+             │    PHASE 4: RAG LAYER        │  │   PHASE 4: RAG INGESTION     │
+             │--------------------------------│  │--------------------------------│
+             │ ChromaDB (Namespaces: CUE,     │  │ Slack, CRM, Calls, GitHub PRs │
+             │ SDLC, System)                  │  │ TF Docs, Architecture Docs    │
+             │ Hybrid Search (Vector+BM25)    │  │ Chunking + Embeddings + Sync  │
+             └──────────────────┬─────────────┘  └──────────────────────────────┘
+                                │
+                                ▼
+                    ┌──────────────────────────────────────┐
+                    │  PHASE 5: MULTI-AGENT PLATFORM       │
+                    │--------------------------------------│
+                    │ LangGraph Runtime                     │
+                    │ Namespaced Memory (CUE/SDLC)          │
+                    │ Tools Registry                        │
+                    │ Safety Layer                          │
+                    └───────────────┬──────────────────────┘
+                                    │
+               ┌────────────────────┼──────────────────────┐
+               │                    │                      │
+               ▼                    ▼                      ▼
+    ┌─────────────────┐  ┌─────────────────┐   ┌─────────────────────────┐
+    │ PHASE 6: CUE     │  │ PHASE 7: SDLC   │   │  FUTURE AGENTS          │
+    │ Agents:          │  │ Agents:         │   │ HR, Finance, Ops, etc.  │
+    │ - Signal Unifier │  │ - Req Analyzer  │   │                         │
+    │ - Analyzer       │  │ - Architect     │   │                         │
+    │ - Validator      │  │ - CodeGen       │   │                         │
+    │ - Summarizer     │  │ - Reviewer      │   │                         │
+    └────────┬────────┘  └────────┬────────┘   └─────────────────────────┘
+             │                    │
+             ▼                    ▼
+ ┌──────────────────────┐  ┌─────────────────────────┐
+ │ PHASE 8: Observability│  │ PHASE 9: Security/GRC   │
+ │ (Prom, Grafana, Logs) │  │ Guardrails, Policies    │
+ └───────────┬──────────┘  └──────────────┬──────────┘
+             │                             │
+             ▼                             ▼
+              ┌───────────────────────────────────────────┐
+              │      PHASE 10: PRODUCTIONIZATION           │
+              │ Blue/Green Deployments | CI/CD | Rollouts  │
+              └───────────────────────────────────────────┘

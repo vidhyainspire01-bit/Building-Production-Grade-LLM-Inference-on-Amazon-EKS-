@@ -15,15 +15,3 @@ variable "project" {
   default     = "genai"
   description = "Project name"
 }
-
-variable "cluster_name" {
-  type        = string
-  default     = "genai-cluster-dev"
-  description = "EKS cluster name"
-}
-
-variable "kubernetes_version" {
-  type        = string
-  default     = "1.28"
-  description = "Kubernetes version for EKS cluster"
-}
